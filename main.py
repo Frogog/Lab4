@@ -14,18 +14,16 @@ port = st.selectbox(
 ("Пункт посадки не выбран",'Саутгемптон', 'Квинстаун', 'Шербур')
 )
 
-def port_survival_stat (port_name):
+def port_survival_stat (port_name, df):
     statistic = {
         'Спасенные': [0],
         'Умершие': [0]
     }
-    results = pd.DataFrame(statistic)
     if port_name in ports_names:
         st.header("Статистика по пункту посадки "+port_name)
         statistic["Спасенные"] = [len(df[(df["Embarked"] == ports_names[port_name]) & (df["Survived"] == 1)])]
         statistic["Умершие"] = [len(df[(df["Embarked"] == ports_names[port_name]) & (df["Survived"] == 0)])]
-        results = pd.DataFrame(statistic)
-
+    results = pd.DataFrame(statistic)
     return results
 
-st.dataframe(port_survival_stat(port))
+st.dataframe(port_survival_stat(port,df))
